@@ -1,10 +1,14 @@
 import { createRoot } from 'react-dom/client'
+import { BrowserRouter } from "react-router"
 import './Index.css'
 import App from './App'
 
 function Main(){
   return(
-    <App></App>
+    <BrowserRouter>
+     <App></App>
+     </BrowserRouter>
+   
   )
 }
 
