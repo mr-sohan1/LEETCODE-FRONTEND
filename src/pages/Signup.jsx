@@ -3,7 +3,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
 const signupSchema = z.object({
-    firstName: z.string().min(3, "Name Should Contain atleast 3 char"),
     emailID: z.string().email("Invalid EmailID"),
     password: z.string().min(8, "Password Should Contain atleast 8 character")
 })
