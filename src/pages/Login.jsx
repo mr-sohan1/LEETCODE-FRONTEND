@@ -17,7 +17,7 @@ function Login() {
             <div className="card w-full max-w-md bg-base-100 shadow-xl">
                 <div className="card-body">
                     <h2 className="card-title text-2xl font-bold justify-center mb-2">
-                       Login to get started
+                        Login to get started
                     </h2>
 
                     <form onSubmit={handleSubmit((data) => console.log(data))} className="space-y-4">

@@ -16,10 +16,10 @@ function Signup() {
             <div className="card w-full max-w-md bg-base-100 shadow-xl">
                 <div className="card-body">
                     <h2 className="card-title text-2xl font-bold justify-center mb-2">
-                        Create an Account
+                         Create an Account 
                     </h2>
                     <p className="text-center text-sm text-base-content/60 mb-4">
-                        Sign up to get started
+                         Sign up to get started
                     </p>
 
                     <form onSubmit={handleSubmit((data) => console.log(data))} className="space-y-4">
