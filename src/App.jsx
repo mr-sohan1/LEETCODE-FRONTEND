@@ -7,23 +7,42 @@ import { checkAuth } from "./authSlice";
 import { useEffect } from "react";
 
 
-function App(){
+function App() {
+  const dispatch = useDispatch();
+  const { isAuthenticated, loading } = useSelector(
+    (state) => state.auth
+  );
 
-   const dispatch = useDispatch();
-    const {isAuthenticated,user,loading} = useSelector((state)=>state.auth);
-  
-    // check initial authentication
-    useEffect(() => {
-      dispatch(checkAuth());
-    }, [dispatch]);
+  useEffect(() => {
+    dispatch(checkAuth());
+  }, [dispatch]);
 
-    return(
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  return (
     <Routes>
-      <Route path="/" element={isAuthenticated ?<Homepage></Homepage>:<Navigate to="/signup" />}></Route>
-      <Route path="/login" element={isAuthenticated?<Navigate to="/" />:<Login></Login>}></Route>
-      <Route path="/signup" element={isAuthenticated?<Navigate to="/" />:<Signup></Signup>}></Route>
+      <Route
+        path="/"
+        element={
+          isAuthenticated ? <Homepage /> : <Navigate to="/signup" replace />
+        }
+      />
+      <Route
+        path="/login"
+        element={
+          isAuthenticated ? <Navigate to="/" replace /> : <Login />
+        }
+      />
+      <Route
+        path="/signup"
+        element={
+          isAuthenticated ? <Navigate to="/" replace /> : <Signup />
+        }
+      />
     </Routes>
-    )
+  );
 }
 
 export default App;

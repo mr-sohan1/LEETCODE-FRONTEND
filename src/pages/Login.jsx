@@ -2,15 +2,14 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
-const signupSchema = z.object({
-    firstName: z.string().min(3, "Name Should Contain atleast 3 char"),
+const loginSchema = z.object({
     emailID: z.string().email("Invalid EmailID"),
     password: z.string().min(8, "Password Should Contain atleast 8 character")
 })
 
 function Login() {
 
-    const { register, handleSubmit, formState: { errors } } = useForm({ resolver: zodResolver(signupSchema) });
+    const { register, handleSubmit, formState: { errors } } = useForm({ resolver: zodResolver(loginSchema) });
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-base-200 px-4">
