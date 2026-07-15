@@ -23,24 +23,9 @@ function App() {
 
   return (
     <Routes>
-      <Route
-        path="/"
-        element={
-          isAuthenticated ? <Homepage /> : <Navigate to="/signup" replace />
-        }
-      />
-      <Route
-        path="/login"
-        element={
-          isAuthenticated ? <Navigate to="/" replace /> : <Login />
-        }
-      />
-      <Route
-        path="/signup"
-        element={
-          isAuthenticated ? <Navigate to="/" replace /> : <Signup />
-        }
-      />
+      <Route path="/" element={ isAuthenticated ? <Homepage /> : <Navigate to="/signup" replace />}/>
+      <Route path="/login" element={ isAuthenticated ? <Navigate to="/" replace /> : <Login /> }/>
+      <Route path="/signup" element={  isAuthenticated ? <Navigate to="/" replace /> : <Signup /> }/>
     </Routes>
   );
 }
