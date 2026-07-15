@@ -17,16 +17,20 @@ function App() {
     dispatch(checkAuth());
   }, [dispatch]);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+ if (loading) {
+  return (
+    <div className="min-h-screen flex items-center justify-center">
+      <span className="loading loading-spinner loading-lg"></span>
+    </div>
+  );
+}
 
   return (
     <Routes>
       <Route path="/" element={ isAuthenticated ? <Homepage /> : <Navigate to="/signup" replace />}/>
       <Route path="/login" element={ isAuthenticated ? <Navigate to="/" replace /> : <Login /> }/>
       <Route path="/signup" element={  isAuthenticated ? <Navigate to="/" replace /> : <Signup /> }/>
-    </Routes>
+    </Routes >
   );
 }
 
