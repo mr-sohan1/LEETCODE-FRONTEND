@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 
 
 const loginSchema = z.object({
-  emailId: z.string().email("Invalid Email"),
+  emailID: z.string().email("Invalid Email"),
   password: z.string().min(8, "Password is too weak") 
 });
 
@@ -48,11 +48,11 @@ function Login() {
               <input
                 type="email"
                 placeholder="john@example.com"
-                className={`input input-bordered w-full ${errors.emailId ? 'input-error' : ''}`} 
-                {...register('emailId')}
+                className={`input input-bordered w-full ${errors.emailID ? 'input-error' : ''}`} 
+                {...register('emailID')}
               />
-              {errors.emailId && (
-                <span className="text-error text-sm mt-1">{errors.emailId.message}</span>
+              {errors.emailID && (
+                <span className="text-error text-sm mt-1">{errors.emailID.message}</span>
               )}
             </div>
 
