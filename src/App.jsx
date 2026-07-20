@@ -2,6 +2,7 @@ import { Routes, Route,Navigate } from "react-router";
 import Homepage from "./pages/Homepage";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
+import AdminPanel from "./pages/AdminPanel"
 import { useDispatch, useSelector } from 'react-redux';
 import { checkAuth } from "./authSlice";
 import { useEffect } from "react";
