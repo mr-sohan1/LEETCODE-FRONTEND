@@ -7,8 +7,8 @@ import { useNavigate, NavLink } from 'react-router';
 import { registerUser } from '../authSlice';
 
 const signupSchema = z.object({
-  firstName: z.string().min(3, "Minimum character should be 3"),
-  emailId: z.string().email("Invalid Email"),
+  firstName: z.string().min(3, "Minimum characters should be 3"),
+  emailID: z.string().email("Invalid Email"),
   password: z.string().min(8, "Password is too weak")
 });
 
@@ -16,8 +16,7 @@ function Signup() {
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { isAuthenticated, loading } = useSelector((state) => state.auth); // Removed error as it wasn't used
-
+  const { isAuthenticated, loading, error } = useSelector((state) => state.auth);
   const {
     register,
     handleSubmit,
@@ -38,7 +37,14 @@ function Signup() {
     <div className="min-h-screen flex items-center justify-center p-4 bg-base-200"> {/* Added a light bg for contrast */}
       <div className="card w-96 bg-base-100 shadow-xl">
         <div className="card-body">
-          <h2 className="card-title justify-center text-3xl mb-6">Leetcode</h2> {/* Added mb-6 for spacing */}
+          <h2 className="card-title justify-center text-3xl mb-6">LeetCode</h2> {/* Added mb-6 for spacing */}
+          
+          {error && (
+            <div className="alert alert-error mb-4 text-sm">
+              <span>{error}</span>
+            </div>
+          )}
+          
           <form onSubmit={handleSubmit(onSubmit)}>
             {/* First Name Field */}
             <div className="form-control">
@@ -64,11 +70,11 @@ function Signup() {
               <input
                 type="email"
                 placeholder="john@example.com"
-                className={`input input-bordered w-full ${errors.emailId ? 'input-error' : ''}`} // Ensure w-full for consistency
-                {...register('emailId')}
+                className={`input input-bordered w-full ${errors.emailID ? 'input-error' : ''}`} // Ensure w-full for consistency
+                {...register('emailID')}
               />
-              {errors.emailId && (
-                <span className="text-error text-sm mt-1">{errors.emailId.message}</span>
+              {errors.emailID && (
+                <span className="text-error text-sm mt-1">{errors.emailID.message}</span>
               )}
             </div>
 
