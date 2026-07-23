@@ -45,7 +45,7 @@ function Homepage() {
 
   const filteredProblems = problems.filter(problem => {
     const difficultyMatch = filters.difficulty === 'all' || problem.difficulty === filters.difficulty;
-    const tagMatch = filters.tag === 'all' || problem.tags === filters.tag;
+    const tagMatch = filters.tag === 'all' || problem.tags.includes(filters.tag);
     const statusMatch = filters.status === 'all' || 
                       solvedProblems.some(sp => sp._id === problem._id);
     return difficultyMatch && tagMatch && statusMatch;
@@ -65,6 +65,7 @@ function Homepage() {
             </div>
             <ul className="mt-3 p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
               <li><button onClick={handleLogout}>Logout</button></li>
+              {user.role=='admin'&&<li><NavLink to="/admin">Admin</NavLink></li>}
             </ul>
           </div>
         </div>
@@ -102,7 +103,7 @@ function Homepage() {
           >
             <option value="all">All Tags</option>
             <option value="array">Array</option>
-            <option value="linkedList">Linked List</option>
+            <option value="linkedlist">Linked List</option>
             <option value="graph">Graph</option>
             <option value="dp">DP</option>
           </select>
@@ -155,4 +156,4 @@ const getDifficultyBadgeColor = (difficulty) => {
   }
 };
 
-export default Homepage;;
+export default Homepage;
