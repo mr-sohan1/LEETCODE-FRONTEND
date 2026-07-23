@@ -37,9 +37,14 @@ function Login() {
     <div className="min-h-screen flex items-center justify-center p-4 bg-base-200"> {/* Added bg for contrast */}
       <div className="card w-96 bg-base-100 shadow-xl">
         <div className="card-body">
-          <h2 className="card-title justify-center text-3xl mb-6">Leetcode</h2> {/* Added mb-6 */}
-
+          <h2 className="card-title justify-center text-3xl mb-6">LeetCode</h2> {/* Added mb-6 */}
           
+          {error && (
+            <div className="alert alert-error mb-4 text-sm">
+              <span>{error}</span>
+            </div>
+          )}
+
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="form-control"> {/* Removed mt-4 from first form-control for tighter spacing to title or global error */}
               <label className="label"> {/* Removed mb-1, default spacing should be fine */}
