@@ -3,6 +3,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import axiosClient from '../utils/axiosClient';
 import { useNavigate } from 'react-router';
+import { useState } from 'react';
 
 // Zod schema matching the problem schema
 const problemSchema = z.object({
@@ -78,13 +79,19 @@ function AdminPanel() {
     name: 'hiddenTestCases'
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const onSubmit = async (data) => {
+    if (isSubmitting) return;
+    setIsSubmitting(true);
     try {
       await axiosClient.post('/problem/create', data);
       alert('Problem created successfully!');
       navigate('/');
     } catch (error) {
       alert(`Error: ${error.response?.data?.message || error.message}`);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -288,8 +295,15 @@ function AdminPanel() {
           </div>
         </div>
 
-        <button type="submit" className="btn btn-primary w-full">
-          Create Problem
+        <button type="submit" className="btn btn-primary w-full" disabled={isSubmitting}>
+          {isSubmitting ? (
+            <>
+              <span className="loading loading-spinner"></span>
+              Creating...
+            </>
+          ) : (
+            'Create Problem'
+          )}
         </button>
       </form>
     </div>
