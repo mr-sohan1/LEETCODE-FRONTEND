@@ -96,6 +96,11 @@ function Homepage() {
     const fetchProblems = async () => {
       try {
         const { data } = await axiosClient.get('/problem/getAllProblem');
+        // Shuffle the problems to display them in random order
+        for (let i = data.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [data[i], data[j]] = [data[j], data[i]];
+        }
         setProblems(data);
       } catch (error) {
         console.error('Error fetching problems:', error);

@@ -44,6 +44,7 @@ function AdminPanel() {
     register,
     control,
     handleSubmit,
+    // reset,
     formState: { errors }
   } = useForm({
     resolver: zodResolver(problemSchema),
