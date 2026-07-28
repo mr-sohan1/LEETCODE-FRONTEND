@@ -11,7 +11,7 @@ import Admin from "./pages/Admin";
 import AdminDelete from "./components/AdminDelete"
 import AdminUpdate from "./components/AdminUpdate"
 import AdminUpdateQuestion from "./components/AdminUpdateQuestion"
-import LandingPage from "./pages/Landingpage";
+import LandingPage from "./pages/LandingPage";
 
 function App(){
   

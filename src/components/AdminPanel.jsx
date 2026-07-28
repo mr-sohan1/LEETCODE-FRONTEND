@@ -158,7 +158,7 @@ function AdminPanel() {
                   <option value="graph">Graph</option>
                   <option value="dp">DP</option>
                   <option value="string">String</option>
-                  <option value= "graph">Graph</option>
+                  <option value= "tree">Tree</option>
                 </select>
               </div>
             </div>
