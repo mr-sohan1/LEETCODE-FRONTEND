@@ -9,6 +9,7 @@ import AdminPanel from "./components/AdminPanel";
 import ProblemPage from "./pages/ProblemPage"
 import Admin from "./pages/Admin";
 import AdminDelete from "./components/AdminDelete"
+import LandingPage from "./pages/Landingpage";
 
 function App(){
   
@@ -29,12 +30,13 @@ function App(){
   return(
   <>
     <Routes>
-      <Route path="/" element={isAuthenticated ?<Homepage></Homepage>:<Navigate to="/signup" />}></Route>
-      <Route path="/login" element={isAuthenticated?<Navigate to="/" />:<Login></Login>}></Route>
-      <Route path="/signup" element={isAuthenticated?<Navigate to="/" />:<Signup></Signup>}></Route>
-      <Route path="/admin" element={isAuthenticated && user?.role === 'admin' ? <Admin /> : <Navigate to="/" />} />
-      <Route path="/admin/create" element={isAuthenticated && user?.role === 'admin' ? <AdminPanel /> : <Navigate to="/" />} />
-      <Route path="/admin/delete" element={isAuthenticated && user?.role === 'admin' ? <AdminDelete /> : <Navigate to="/" />} />
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/home" element={isAuthenticated ?<Homepage></Homepage>:<Navigate to="/signup" />}></Route>
+      <Route path="/login" element={isAuthenticated?<Navigate to="/home" />:<Login></Login>}></Route>
+      <Route path="/signup" element={isAuthenticated?<Navigate to="/home" />:<Signup></Signup>}></Route>
+      <Route path="/admin" element={isAuthenticated && user?.role === 'admin' ? <Admin /> : <Navigate to="/home" />} />
+      <Route path="/admin/create" element={isAuthenticated && user?.role === 'admin' ? <AdminPanel /> : <Navigate to="/home" />} />
+      <Route path="/admin/delete" element={isAuthenticated && user?.role === 'admin' ? <AdminDelete /> : <Navigate to="/home" />} />
       <Route path="/problem/:problemId" element={<ProblemPage/>}></Route>
       
     </Routes>
