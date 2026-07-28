@@ -34,68 +34,96 @@ function Signup() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-base-200"> {/* Added a light bg for contrast */}
-      <div className="card w-96 bg-base-100 shadow-xl">
-        <div className="card-body">
-          <h2 className="card-title justify-center text-3xl mb-6">LeetCode</h2> {/* Added mb-6 for spacing */}
-          
+    <div className="min-h-screen bg-[#0A0B0D] text-[#EDEDED] font-sans relative">
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+        .font-display { font-family: 'Space Grotesk', system-ui, sans-serif; }
+        .font-mono-custom { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+      `}</style>
+
+      {/* Logo pinned top-left, matches landing/login page navbar */}
+      <NavLink
+        to="/"
+        className="absolute top-6 left-6 md:top-8 md:left-10 font-display font-semibold text-3xl tracking-tight"
+      >
+        Erical<span className="text-[#4ADE80]">Code</span>
+      </NavLink>
+
+      <div className="min-h-screen flex items-center justify-center p-4">
+        <div className="w-full max-w-sm bg-[#131519] border border-[#2A2D33] rounded-lg p-8">
+          <p className="font-mono-custom text-xs text-[#8A8F98] mb-2 tracking-wide">
+            $ auth --signup
+          </p>
+          <h2 className="font-display text-2xl font-semibold mb-6">
+            Create your account
+          </h2>
+
           {error && (
-            <div className="alert alert-error mb-4 text-sm">
-              <span>{error}</span>
+            <div className="mb-4 text-sm text-[#F87171] bg-[#F87171]/10 border border-[#F87171]/30 rounded-md px-3 py-2">
+              {error}
             </div>
           )}
-          
-          <form onSubmit={handleSubmit(onSubmit)}>
+
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             {/* First Name Field */}
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">First Name</span>
+            <div>
+              <label className="block text-xs text-[#8A8F98] mb-1.5">
+                First Name
               </label>
               <input
                 type="text"
                 placeholder="John"
-                className={`input input-bordered w-full ${errors.firstName ? 'input-error' : ''}`} 
+                className={`w-full bg-[#0A0B0D] border rounded-md px-3 py-2.5 text-sm text-[#EDEDED] placeholder:text-[#5A5D63] outline-none focus:border-[#4ADE80] transition-colors ${
+                  errors.firstName ? 'border-[#F87171]' : 'border-[#2A2D33]'
+                }`}
                 {...register('firstName')}
               />
               {errors.firstName && (
-                <span className="text-error text-sm mt-1">{errors.firstName.message}</span>
+                <span className="text-[#F87171] text-xs mt-1 block">
+                  {errors.firstName.message}
+                </span>
               )}
             </div>
 
             {/* Email Field */}
-            <div className="form-control mt-4">
-              <label className="label">
-                <span className="label-text">Email</span>
+            <div>
+              <label className="block text-xs text-[#8A8F98] mb-1.5">
+                Email
               </label>
               <input
                 type="email"
                 placeholder="john@example.com"
-                className={`input input-bordered w-full ${errors.emailID ? 'input-error' : ''}`} // Ensure w-full for consistency
+                className={`w-full bg-[#0A0B0D] border rounded-md px-3 py-2.5 text-sm text-[#EDEDED] placeholder:text-[#5A5D63] outline-none focus:border-[#4ADE80] transition-colors ${
+                  errors.emailID ? 'border-[#F87171]' : 'border-[#2A2D33]'
+                }`}
                 {...register('emailID')}
               />
               {errors.emailID && (
-                <span className="text-error text-sm mt-1">{errors.emailID.message}</span>
+                <span className="text-[#F87171] text-xs mt-1 block">
+                  {errors.emailID.message}
+                </span>
               )}
             </div>
 
             {/* Password Field with Toggle */}
-            <div className="form-control mt-4">
-              <label className="label">
-                <span className="label-text">Password</span>
+            <div>
+              <label className="block text-xs text-[#8A8F98] mb-1.5">
+                Password
               </label>
               <div className="relative">
                 <input
                   type={showPassword ? "text" : "password"}
                   placeholder="••••••••"
-                  // Added pr-10 (padding-right) to make space for the button
-                  className={`input input-bordered w-full pr-10 ${errors.password ? 'input-error' : ''}`}
+                  className={`w-full bg-[#0A0B0D] border rounded-md px-3 py-2.5 pr-10 text-sm text-[#EDEDED] placeholder:text-[#5A5D63] outline-none focus:border-[#4ADE80] transition-colors ${
+                    errors.password ? 'border-[#F87171]' : 'border-[#2A2D33]'
+                  }`}
                   {...register('password')}
                 />
                 <button
                   type="button"
-                  className="absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-500 hover:text-gray-700" // Added transform for better centering, styling
+                  className="absolute top-1/2 right-3 -translate-y-1/2 text-[#8A8F98] hover:text-[#EDEDED] transition-colors"
                   onClick={() => setShowPassword(!showPassword)}
-                  aria-label={showPassword ? "Hide password" : "Show password"} // Accessibility
+                  aria-label={showPassword ? "Hide password" : "Show password"}
                 >
                   {showPassword ? (
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -110,27 +138,34 @@ function Signup() {
                 </button>
               </div>
               {errors.password && (
-                <span className="text-error text-sm mt-1">{errors.password.message}</span>
+                <span className="text-[#F87171] text-xs mt-1 block">
+                  {errors.password.message}
+                </span>
               )}
             </div>
 
             {/* Submit Button */}
-            <div className="form-control mt-8 flex justify-center"> 
-              <button
-                type="submit"
-                className={`btn btn-primary ${loading ? 'loading' : ''}`}
-                disabled={loading}
-              >
-                {loading ? 'Signing Up...' : 'Sign Up'}
-              </button>
-            </div>
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-[#4ADE80] text-[#0A0B0D] font-medium py-2.5 rounded-md hover:bg-[#3fc76f] transition-colors disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            >
+              {loading ? (
+                <>
+                  <span className="w-4 h-4 border-2 border-[#0A0B0D]/30 border-t-[#0A0B0D] rounded-full animate-spin" />
+                  Signing Up...
+                </>
+              ) : (
+                'Sign Up'
+              )}
+            </button>
           </form>
 
           {/* Login Redirect */}
-          <div className="text-center mt-6"> {/* Increased mt for spacing */}
-            <span className="text-sm">
+          <div className="text-center mt-6">
+            <span className="text-sm text-[#8A8F98]">
               Already have an account?{' '}
-              <NavLink to="/login" className="link link-primary">
+              <NavLink to="/login" className="text-[#4ADE80] hover:underline">
                 Login
               </NavLink>
             </span>

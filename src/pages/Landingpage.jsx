@@ -27,8 +27,8 @@ const FEATURES = [
   },
   {
     tag: "03",
-    title: "Real verdicts, real feedback",
-    body: "Accepted, Wrong Answer, TLE, MLE — see exact runtime and memory per test case, the same signal you'd get in an interview.",
+    title: "Real solutions, powered by Erical-AI",
+    body: "Solve programming problems, debug your code, and clear technical doubts with an intelligent AI mentor—all for free.",
   },
 ];
 
@@ -80,16 +80,16 @@ export default function LandingPage() {
       `}</style>
 
       {/* Nav */}
-      <nav className="max-w-6xl mx-auto px-6 py-6 flex items-center justify-between">
-        <div className="font-display font-semibold text-lg tracking-tight">
+      <nav className="max-w-370 mx-auto px-8 lg:px-12 py-6 flex items-center justify-between">
+        <div className="font-display font-semibold text-3xl tracking-tight">
         Erical<span className="text-[#4ADE80]">Code</span>
         </div>
         <div className="flex items-center gap-3">
           <Link
-            to="/login"
-            className="text-sm text-[#8A8F98] hover:text-[#EDEDED] transition-colors px-3 py-2"
+            to="/signup"
+            className="text-sm text-[#9a9c9f] hover:text-[#ffffff] transition-colors px-3 py-2"
           >
-            Log in
+            Signup
           </Link>
           <Link
             to="/signup"
@@ -101,7 +101,7 @@ export default function LandingPage() {
       </nav>
 
       {/* Hero */}
-      <section className="max-w-6xl mx-auto px-6 pt-16 pb-24 grid md:grid-cols-2 gap-16 items-center">
+      <section className="max-w-350 mx-auto px-8 lg:px-12 pt-16 pb-24 grid md:grid-cols-2 gap-20 items-center">
         <div>
           <p className="font-mono-custom text-xs text-[#8A8F98] mb-4 tracking-wide">
            Learn. Solve. Grow 
@@ -114,7 +114,6 @@ export default function LandingPage() {
             <span className="text-[#4ADE80]">the pattern.</span>
           </h1>
           <p className="text-[#8A8F98] text-lg leading-relaxed mb-8 max-w-md">
-            A LeetCode-style judge built around technique, not trivia.
             A platform to master coding through structured algorithmic challenges and real-world programming practice.
           </p>
           <div className="flex items-center gap-4">
@@ -165,7 +164,7 @@ export default function LandingPage() {
       </section>
 
       {/* Features */}
-      <section className="max-w-6xl mx-auto px-6 pb-24">
+      <section className="max-w-350 mx-auto px-8 lg:px-12 pb-24">
         <div className="grid md:grid-cols-3 gap-8 border-t border-[#2A2D33] pt-16">
           {FEATURES.map((f) => (
             <div key={f.tag}>
@@ -184,7 +183,7 @@ export default function LandingPage() {
       </section>
 
       {/* CTA */}
-      <section className="max-w-6xl mx-auto px-6 pb-24">
+     <section className="max-w-350 mx-auto px-8 lg:px-12 pb-24">
         <div className="bg-[#131519] border border-[#2A2D33] rounded-lg px-8 py-12 text-center">
           <h2 className="font-display text-3xl font-semibold mb-3">
             Your next submission could be{" "}
@@ -203,11 +202,13 @@ export default function LandingPage() {
       </section>
 
       {/* Footer */}
-      <footer className="max-w-6xl mx-auto px-6 py-8 border-t border-[#2A2D33] flex items-center justify-between text-xs text-[#8A8F98]">
-        <span className="font-mono-custom">EricalCode</span>
+      <footer className="max-w-380 mx-auto px-8 lg:px-12 py-8 border-t border-[#2A2D33] flex items-center justify-between text-xs text-[#8A8F98]">
+          <span className="font-mono-custom">
+               © {new Date().getFullYear()} EricalCode. All rights reserved.
+          </span>
         <span>Built with the MERN stack + Judge0 + AI-powered doubt solving</span>
         <div className="flex items-center gap-4">
-            <span className="font-signature text-xl text-[#FDBA74]">
+            <span className="font-signature text-l text-[#cd9be2]">
             Sohan Maity
           </span>
           <a
