@@ -75,10 +75,9 @@ function ChatAi({ problem }) {
                {messages.length === 0 && (
     <div className="flex flex-col items-center justify-center h-full text-center px-6">
 
-        <div className="text-4xl mb-3">🤖</div>
 
         <h2 className="text-2xl font-semibold">
-            Hey, I'm Erical AI
+            Hey, I'm Erical<span className="text-[#4ADE80]">AI</span>
         </h2>
 
         <p className="mt-3 max-w-lg text-sm text-base-content/70 leading-7">
@@ -88,10 +87,10 @@ function ChatAi({ problem }) {
         </p>
 
         <div className="mt-6 flex flex-wrap justify-center gap-2">
-            <span className="badge badge-outline">💡 Hints</span>
-            <span className="badge badge-outline">🐞 Debug</span>
-            <span className="badge badge-outline">📊 Complexity</span>
-            <span className="badge badge-outline">🧠 Concepts</span>
+            <span className="badge badge-outline"> Hints</span>
+            <span className="badge badge-outline"> Debug</span>
+            <span className="badge badge-outline"> Complexity</span>
+            <span className="badge badge-outline"> Concepts</span>
         </div>
 
     </div>
