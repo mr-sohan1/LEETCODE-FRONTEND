@@ -9,6 +9,8 @@ import AdminPanel from "./components/AdminPanel";
 import ProblemPage from "./pages/ProblemPage"
 import Admin from "./pages/Admin";
 import AdminDelete from "./components/AdminDelete"
+import AdminUpdate from "./components/AdminUpdate"
+import AdminUpdateQuestion from "./components/AdminUpdateQuestion"
 import LandingPage from "./pages/Landingpage";
 
 function App(){
@@ -36,6 +38,8 @@ function App(){
       <Route path="/signup" element={isAuthenticated?<Navigate to="/home" />:<Signup></Signup>}></Route>
       <Route path="/admin" element={isAuthenticated && user?.role === 'admin' ? <Admin /> : <Navigate to="/home" />} />
       <Route path="/admin/create" element={isAuthenticated && user?.role === 'admin' ? <AdminPanel /> : <Navigate to="/home" />} />
+      <Route path="/admin/update" element={isAuthenticated && user?.role === 'admin' ? <AdminUpdate /> : <Navigate to="/home" />} />
+      <Route path="/admin/update/:id" element={isAuthenticated && user?.role === 'admin' ? <AdminUpdateQuestion /> : <Navigate to="/home" />} />
       <Route path="/admin/delete" element={isAuthenticated && user?.role === 'admin' ? <AdminDelete /> : <Navigate to="/home" />} />
       <Route path="/problem/:problemId" element={<ProblemPage/>}></Route>
       

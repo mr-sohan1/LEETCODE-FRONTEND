@@ -2,15 +2,15 @@ import { useForm, useFieldArray } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import axiosClient from '../utils/axiosClient';
-import { useNavigate } from 'react-router';
-import { useState } from 'react';
+import { useNavigate, useParams } from 'react-router';
+import { useState, useEffect } from 'react';
 
 // Zod schema matching the problem schema
 const problemSchema = z.object({
   title: z.string().min(1, 'Title is required'),
   description: z.string().min(1, 'Description is required'),
   difficulty: z.enum(['easy', 'medium', 'hard']),
-  tags: z.enum( ["array","string","tree", "linkedlist", "graph", "dp"]),
+  tags: z.enum(["array", "string", "tree", "linkedlist", "graph", "dp"]),
   visibleTestCases: z.array(
     z.object({
       input: z.string().min(1, 'Input is required'),
@@ -38,12 +38,17 @@ const problemSchema = z.object({
   ).length(3, 'All three languages required')
 });
 
-function AdminPanel() {
+function AdminUpdateQuestion() {
+  const { id } = useParams();
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const {
     register,
     control,
     handleSubmit,
+    reset,
     formState: { errors }
   } = useForm({
     resolver: zodResolver(problemSchema),
@@ -79,15 +84,36 @@ function AdminPanel() {
     name: 'hiddenTestCases'
   });
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  useEffect(() => {
+    const fetchProblem = async () => {
+      try {
+        const response = await axiosClient.get(`/problem/admin/problembyid/${id}`);
+        const data = response.data;
+        
+        // Ensure hiddenTestCases exists if the backend omitted it
+        if (!data.hiddenTestCases || data.hiddenTestCases.length === 0) {
+          data.hiddenTestCases = [{ input: '', output: '' }];
+        }
+        
+        reset(data);
+      } catch (error) {
+        alert(`Error fetching problem: ${error.response?.data?.message || error.message}`);
+        navigate('/admin');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchProblem();
+  }, [id, reset, navigate]);
 
   const onSubmit = async (data) => {
     if (isSubmitting) return;
     setIsSubmitting(true);
     try {
-      await axiosClient.post('/problem/create', data);
-      alert('Problem created successfully!');
-      navigate('/');
+      await axiosClient.put(`/problem/update/${id}`, data);
+      alert('Problem updated successfully!');
+      navigate('/admin');
     } catch (error) {
       alert(`Error: ${error.response?.data?.message || error.message}`);
     } finally {
@@ -95,9 +121,17 @@ function AdminPanel() {
     }
   };
 
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <span className="loading loading-spinner loading-lg"></span>
+      </div>
+    );
+  }
+
   return (
     <div className="container mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-6">Create New Problem</h1>
+      <h1 className="text-3xl font-bold mb-6">Update Problem</h1>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         {/* Basic Information */}
@@ -158,7 +192,6 @@ function AdminPanel() {
                   <option value="graph">Graph</option>
                   <option value="dp">DP</option>
                   <option value="string">String</option>
-                  <option value= "graph">Graph</option>
                 </select>
               </div>
             </div>
@@ -330,10 +363,10 @@ function AdminPanel() {
           {isSubmitting ? (
             <>
               <span className="loading loading-spinner"></span>
-              Creating...
+              Updating...
             </>
           ) : (
-            'Create Problem'
+            'Update Problem'
           )}
         </button>
       </form>
@@ -341,4 +374,4 @@ function AdminPanel() {
   );
 }
 
-export default AdminPanel;
+export default AdminUpdateQuestion;

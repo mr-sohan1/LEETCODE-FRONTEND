@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { SiLeetcode } from "react-icons/si";
 
@@ -51,6 +51,21 @@ function VerdictPill({ v }) {
 export default function LandingPage() {
   const [queue, setQueue] = useState(VERDICTS.slice(0, 4));
   const [tick, setTick] = useState(0);
+  const [transitionState, setTransitionState] = useState({ active: false, x: 0, y: 0 });
+  const navigate = useNavigate();
+
+  const handleNav = (e, path) => {
+    e.preventDefault();
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX || rect.left + rect.width / 2;
+    const y = e.clientY || rect.top + rect.height / 2;
+    
+    setTransitionState({ active: true, x, y });
+    
+    setTimeout(() => {
+      navigate(path);
+    }, 500);
+  };
 
   useEffect(() => {
     const id = setInterval(() => {
@@ -77,7 +92,34 @@ export default function LandingPage() {
           to { opacity: 1; transform: translateY(0); }
         }
         .verdict-enter { animation: fadeSlideIn 0.4s ease-out; }
+        @keyframes circleWipe {
+          0% { clip-path: circle(0% at var(--x) var(--y)); opacity: 0; }
+          5% { opacity: 1; }
+          100% { clip-path: circle(150% at var(--x) var(--y)); opacity: 1; }
+        }
+        .page-transition-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100vw;
+          height: 100vh;
+          background-color: #131519;
+          z-index: 9999;
+          pointer-events: none;
+          animation: circleWipe 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        .page-enter { animation: fadeSlideIn 0.4s ease-out forwards; }
       `}</style>
+
+      {transitionState.active && (
+        <div 
+          className="page-transition-overlay"
+          style={{
+            '--x': `${transitionState.x}px`,
+            '--y': `${transitionState.y}px`
+          }}
+        />
+      )}
 
       {/* Nav */}
       <nav className="max-w-370 mx-auto px-8 lg:px-12 py-6 flex items-center justify-between">
@@ -87,12 +129,14 @@ export default function LandingPage() {
         <div className="flex items-center gap-3">
           <Link
             to="/signup"
+            onClick={(e) => handleNav(e, "/signup")}
             className="text-sm text-[#9a9c9f] hover:text-[#ffffff] transition-colors px-3 py-2"
           >
             Signup
           </Link>
           <Link
             to="/signup"
+            onClick={(e) => handleNav(e, "/signup")}
             className="text-sm bg-[#EDEDED] text-[#0A0B0D] font-medium px-4 py-2 rounded-md hover:bg-white transition-colors"
           >
             Start solving
@@ -119,12 +163,14 @@ export default function LandingPage() {
           <div className="flex items-center gap-4">
             <Link
               to="/signup"
+              onClick={(e) => handleNav(e, "/signup")}
               className="bg-[#4ADE80] text-[#0A0B0D] font-medium px-6 py-3 rounded-md hover:bg-[#3fc76f] transition-colors"
             >
               Start for free
             </Link>
             <Link
               to="/login"
+              onClick={(e) => handleNav(e, "/login")}
               className="border border-[#2A2D33] px-6 py-3 rounded-md text-sm hover:border-[#4A4D53] transition-colors"
             >
               I already have an account
@@ -194,6 +240,7 @@ export default function LandingPage() {
           </p>
           <Link
             to="/signup"
+            onClick={(e) => handleNav(e, "/signup")}
             className="inline-block bg-[#4ADE80] text-[#0A0B0D] font-medium px-6 py-3 rounded-md hover:bg-[#3fc76f] transition-colors"
           >
             Create free account

@@ -4,6 +4,7 @@ import Editor from '@monaco-editor/react';
 import { useParams } from 'react-router';
 import axiosClient from "../utils/axiosClient"
 import SubmissionHistory from "../components/SubmissionHistory"
+import ChatAi from "../components/ChatAi"
 
 const langMap = {
         cpp: 'C++',
@@ -181,6 +182,12 @@ const ProblemPage = () => {
           >
             Submissions
           </button>
+          <button 
+            className={`tab ${activeLeftTab === 'chatAI' ? 'tab-active' : ''}`}
+            onClick={() => setActiveLeftTab('chatAI')}
+          >
+            ChatAI
+          </button>
         </div>
 
         {/* Left Content */}
@@ -224,9 +231,27 @@ const ProblemPage = () => {
               {activeLeftTab === 'editorial' && (
                 <div className="prose max-w-none">
                   <h2 className="text-xl font-bold mb-4">Editorial</h2>
-                  <div className="whitespace-pre-wrap text-sm leading-relaxed">
-                    {'Editorial is here for the problem'}
-                  </div>
+                  <div className="flex flex-col items-center justify-center h-[70vh] text-center px-6">
+    
+    <div className="text-6xl mb-4">🎥</div>
+
+    <h2 className="text-3xl font-bold text-white mb-4">
+        Video Editorial
+    </h2>
+
+    <p className="max-w-xl text-lg text-base-content/80 leading-relaxed">
+        Interactive video explanations with visual walkthroughs and optimal solution strategies.
+    </p>
+
+    <div className="mt-6 px-5 py-2 rounded-full bg-linear-to-r from-yellow-500 to-orange-500 text-black font-semibold shadow-lg">
+        🚀 Premium Feature — Coming Soon
+    </div>
+
+    <p className="mt-5 text-base text-base-content/60 italic">
+        # Available in the next major update.
+    </p>
+
+</div>
                 </div>
               )}
 
@@ -257,6 +282,10 @@ const ProblemPage = () => {
                     <SubmissionHistory problemId={problemId} />
                   </div>
                 </div>
+              )}
+
+              {activeLeftTab === 'chatAI' && (
+                <ChatAi problem={problem} />
               )}
             </>
           )}

@@ -34,7 +34,7 @@ function Signup() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0A0B0D] text-[#EDEDED] font-sans relative">
+    <div className="min-h-screen bg-[#0A0B0D] text-[#EDEDED] font-sans relative page-enter">
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
         .font-display { font-family: 'Space Grotesk', system-ui, sans-serif; }

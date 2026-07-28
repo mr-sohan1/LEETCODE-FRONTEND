@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { NavLink } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import axiosClient from '../utils/axiosClient';
@@ -53,6 +53,33 @@ function DifficultyBadge({ difficulty }) {
   );
 }
 
+// Normalizes a problem's tags field to an array, since it may arrive as
+// either a single string ("array") or an array (["array", "dp"]).
+function normalizeTags(tags) {
+  if (!tags) return [];
+  return Array.isArray(tags) ? tags : [tags];
+}
+
+const TAG_LABELS = {
+  array: 'Array',
+  linkedlist: 'Linked List',
+  graph: 'Graph',
+  dp: 'Dynamic Programming',
+  string: 'String',
+  tree: 'Tree',
+};
+
+function StatCard({ label, value, accent }) {
+  return (
+    <div className="bg-[#202123] border border-[#2A2D33] rounded-lg px-5 py-4 flex-1 min-w-30">
+      <p className="text-xs font-mono-custom text-[#8A8F98] mb-1.5">{label}</p>
+      <p className="font-display font-semibold text-2xl" style={accent ? { color: accent } : undefined}>
+        {value}
+      </p>
+    </div>
+  );
+}
+
 function Homepage() {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
@@ -95,13 +122,22 @@ function Homepage() {
 
   const filteredProblems = problems.filter(problem => {
     const difficultyMatch = filters.difficulty === 'all' || problem.difficulty === filters.difficulty;
-    const tagMatch = filters.tag === 'all' || problem.tags.includes(filters.tag);
+    const tagMatch = filters.tag === 'all' || normalizeTags(problem.tags).includes(filters.tag);
     const statusMatch = filters.status === 'all' ||
                       solvedProblems.some(sp => sp._id === problem._id);
     const searchMatch = search.trim() === '' ||
                       problem.title.toLowerCase().includes(search.trim().toLowerCase());
     return difficultyMatch && tagMatch && statusMatch && searchMatch;
   });
+
+  const difficultyCounts = useMemo(() => {
+    const counts = { easy: 0, medium: 0, hard: 0 };
+    problems.forEach(p => {
+      const d = p.difficulty?.toLowerCase();
+      if (counts[d] !== undefined) counts[d] += 1;
+    });
+    return counts;
+  }, [problems]);
 
   return (
     <div className="min-h-screen bg-[#171718] text-[#EDEDED] font-sans">
@@ -151,7 +187,28 @@ function Homepage() {
       </nav>
 
       {/* Main Content */}
-      <div className="max-w-5xl mx-auto px-6 py-10">
+      <div className="max-w-7xl mx-auto px-6 py-10">
+
+        {/* Welcome header */}
+        <div className="mb-8">
+          <p className="text-xs font-mono-custom text-[#4ADE80] mb-1">
+            {solvedProblems.length > 0 ? 'welcome back' : 'welcome'}
+          </p>
+          <h1 className="font-display font-semibold text-3xl">
+            {user?.firstName ? `Hey, ${user.firstName}.` : 'Hey there.'}{' '}
+            <span className="text-[#8A8F98] font-normal">Let's do it.</span>
+          </h1>
+        </div>
+
+        {/* Overall stats row */}
+        <div className="flex flex-wrap gap-3 mb-8">
+          <StatCard label="Solved" value={solvedProblems.length} accent="#4ADE80" />
+          <StatCard label="Total problems" value={problems.length} />
+          <StatCard label="Easy" value={difficultyCounts.easy} accent="#4ADE80" />
+          <StatCard label="Medium" value={difficultyCounts.medium} accent="#FBBF24" />
+          <StatCard label="Hard" value={difficultyCounts.hard} accent="#F87171" />
+        </div>
+
         {/* Filters + Search */}
         <div className="flex flex-wrap items-center gap-3 mb-8 justify-between">
           <div className="flex flex-wrap gap-3">
@@ -229,7 +286,7 @@ function Homepage() {
           {filteredProblems.map(problem => (
             <div
               key={problem._id}
-              className="bg-[#131519] border border-[#2A2D33] rounded-lg px-5 py-4 hover:border-[#4A4D53] transition-colors"
+              className="bg-[#202123] border border-[#2A2D33] rounded-lg px-5 py-4 hover:border-[#4A4D53] transition-colors"
             >
               <div className="flex items-center justify-between mb-2">
                 <NavLink
@@ -248,11 +305,16 @@ function Homepage() {
                 )}
               </div>
 
-              <div className="flex gap-2">
+              <div className="flex gap-2 flex-wrap">
                 <DifficultyBadge difficulty={problem.difficulty} />
-                <span className="text-xs font-mono-custom px-2.5 py-1 rounded-md border border-[#2A2D33] text-[#8A8F98]">
-                  {problem.tags}
-                </span>
+                {normalizeTags(problem.tags).map(tag => (
+                  <span
+                    key={tag}
+                    className="text-xs font-mono-custom px-2.5 py-1 rounded-md border border-[#2A2D33] text-[#8A8F98]"
+                  >
+                    {TAG_LABELS[tag?.toLowerCase()] || tag}
+                  </span>
+                ))}
               </div>
             </div>
           ))}
